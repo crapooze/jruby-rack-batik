@@ -1,0 +1,36 @@
+
+= INTRO
+
+JRuby/Rack/Batik is a JRuby/Rack middleware to convert SVG files to JPG files
+on the fly.  It does so by using the Batik library 
+(cf. http://xmlgraphics.apache.org/batik/ ).
+
+= USAGE
+
+Batik's JAR is not provided in this distribution and the path to your batik
+directory should be added to your JRuby $CLASSPATH before requiring rack/batik.
+
+See the example/ directory.
+
+= OPERATIONS
+
+This middleware intercepts response with 'Content-Type' set to 'image/svg+xml' and does three things:
+- change the 'Content-Type' to 'image/jpeg'
+- remove the 'Content-Length' header
+- change the body of the response with the JPG data
+
+It takes some milliseconds to transcode, do benchmarks before deciding wether or not you should be using this middleware in your application.
+Current implementation (relying on stringio) does not work well if the SVG data
+is asynchronously feed in chunks because it will flush all of it before
+starting the transcoding.
+
+= FUTURE / PATCH WANTED
+
+* build a gem
+* other output format
+* parametrize the middleware
+
+= MISC.
+
+Author: crapooze
+License: WTF license.
